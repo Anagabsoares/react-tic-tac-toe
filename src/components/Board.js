@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 const generateSquareComponents = (squares, onClickCallback) => {
   const sqr = [];
   let id = 0;
-  const a = onClickCallback;
 
   for (let row of squares) {
     for (let col of row) {
