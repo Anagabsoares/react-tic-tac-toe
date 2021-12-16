@@ -31,6 +31,35 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
 
   // Wave 2
+
+  const [squareValue, setSquaresValue] = useState('x');
+
+  const flatArray = (squares) => {
+    const list = [];
+    for (let arr of squares) {
+      for (let item of arr) {
+        list.push(item);
+      }
+    }
+    return list;
+  };
+
+  const changeSquareValue = (event, squares) => {
+    const list = flatArray(squares);
+    let eventId = event.target.id;
+    let obj = list.find((o) => o.id == eventId - 1);
+
+    if (!obj.value) {
+      event.target.value = squareValue;
+      if (squareValue === 'o') {
+        setSquaresValue('x');
+      } else if (squareValue === 'x') {
+        setSquaresValue('o');
+      }
+      obj.value = event.target.value;
+    }
+  };
+
   // You will need to create a method to change the square
   //   When it is clicked on.
   //   Then pass it into the squares as a callback
@@ -59,7 +88,10 @@ const App = () => {
         <button>Reset Game</button>
       </header>
       <main>
-        <Board squares={squares} />
+        <Board
+          onClickCallback={(event) => changeSquareValue(event, squares)}
+          squares={squares}
+        />
       </main>
     </div>
   );
