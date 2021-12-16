@@ -25,6 +25,8 @@ const generateSquareComponents = (squares, onClickCallback) => {
 
 const Board = ({ squares, onClickCallback }) => {
   const squareList = generateSquareComponents(squares, onClickCallback);
+  console.log('print squares:');
+  console.log(squares);
 
   return (
     <div className="grid" role="button">

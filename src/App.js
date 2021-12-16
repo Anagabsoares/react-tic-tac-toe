@@ -32,7 +32,7 @@ const App = () => {
 
   // Wave 2
 
-  const [squareValue, setSquaresValue] = useState('x');
+  const [squareValue, setSquareValue] = useState('x');
 
   const flatArray = (squares) => {
     const list = [];
@@ -46,16 +46,10 @@ const App = () => {
 
   const changeSquareValue = (event, squares) => {
     const list = flatArray(squares);
-    const eventId = event.target.id;
-    const obj = list.find((o) => o.id == eventId - 1);
-
+    const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
       event.target.value = squareValue;
-      if (squareValue === 'o') {
-        setSquaresValue('x');
-      } else if (squareValue === 'x') {
-        setSquaresValue('o');
-      }
+      squareValue === 'o' ? setSquareValue('x') : setSquareValue('o');
       obj.value = event.target.value;
     }
   };
@@ -76,8 +70,9 @@ const App = () => {
     //    all three squares have the same value.
   };
 
-  const resetGame = () => {
+  const resetGame = (e) => {
     // Complete in Wave 4
+    window.location.reload(false);
   };
 
   return (
@@ -85,7 +80,7 @@ const App = () => {
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
         <h2>The winner is ... -- Fill in for wave 3 </h2>
-        <button>Reset Game</button>
+        <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
         <Board
