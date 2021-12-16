@@ -46,8 +46,8 @@ const App = () => {
 
   const changeSquareValue = (event, squares) => {
     const list = flatArray(squares);
-    let eventId = event.target.id;
-    let obj = list.find((o) => o.id == eventId - 1);
+    const eventId = event.target.id;
+    const obj = list.find((o) => o.id == eventId - 1);
 
     if (!obj.value) {
       event.target.value = squareValue;
