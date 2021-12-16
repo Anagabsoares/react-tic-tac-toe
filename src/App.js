@@ -58,7 +58,9 @@ const App = () => {
   //   When it is clicked on.
   //   Then pass it into the squares as a callback
 
-  const checkForWinner = () => {
+  const checkForWinner = (squares) => {
+    console.log('inside check for winner');
+    console.log(squares);
     // Complete in Wave 3
     // You will need to:
     // 1. Go accross each row to see if
@@ -72,14 +74,18 @@ const App = () => {
 
   const resetGame = (e) => {
     // Complete in Wave 4
-    window.location.reload(false);
+    console.log('reload page');
   };
+
+  const displayPlayer = `Current Player ${squareValue.toUpperCase()} ${checkForWinner(
+    squares
+  )}`;
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is ... -- Fill in for wave 3 </h2>
+        <h2> {displayPlayer}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
