@@ -59,11 +59,38 @@ const App = () => {
   //   Then pass it into the squares as a callback
 
   const checkForWinner = (squares) => {
-    console.log('inside check for winner');
-    console.log(squares);
+    const x = 1;
+    const o = 0;
+    let counter = 0;
+
+    let playerX = false;
+    let PlayerO = false;
+
+    // 0[ {id:0} {id:1} {id:2}]
+    // 1[ {id:3} {id:4} {id:5}]
+    // 2[ {id:6} {id:7} {id:9}]
+
     // Complete in Wave 3
     // You will need to:
     // 1. Go accross each row to see if
+    console.log('inside check for winner');
+    console.log(squares);
+
+    if (
+      squares[0][0]['value'] == 'x' &&
+      squares[0][1]['value'] == 'x' &&
+      squares[0][2]['value'] == 'x'
+    ) {
+      console.log('x winner');
+    }
+
+    for (let item of squares) {
+      console.log(item);
+      if (item['value'] == 'x') {
+        counter += 1;
+      }
+    }
+
     //    3 squares in the same row match
     //    i.e. same value
     // 2. Go down each column to see if
@@ -74,7 +101,6 @@ const App = () => {
 
   const resetGame = (e) => {
     // Complete in Wave 4
-    console.log('reload page');
   };
 
   const displayPlayer = `Current Player ${squareValue.toUpperCase()} ${checkForWinner(
