@@ -61,44 +61,42 @@ const App = () => {
   //   Then pass it into the squares as a callback
 
   const checkForWinner = (squares) => {
-    let x = 0;
-    let o = 0;
-
-    // 0[ {id:0} {id:1} {id:2}]
-    // 1[ {id:3} {id:4} {id:5}]
-    // 2[ {id:6} {id:7} {id:9}]
-
-    // Complete in Wave 3
-    // You will need to:
-    // 1. Go accross each row to see if
-    console.log('inside check for winner');
-
-    for (let array of squares) {
-      console.log(array[0]);
-      console.log(array[1]);
-      console.log(array[2]);
-
-      for (let item of array) {
-        if (item.value == 'x') {
-          x += 1;
-        }
-        if (item.value == 'o') {
-          o += 1;
-        }
-      }
-      if (x == 3) {
-        console.log('x is the winner');
-      } else if (o == 3) {
-        console.log('o is the winner');
+    for (let i = 0; i < 3; i++) {
+      //// checks columns
+      if (
+        squares[0][i]['value'] == squares[1][i]['value'] &&
+        squares[1][i]['value'] == squares[2][i]['value'] &&
+        squares[0][i]['value'] != ''
+      ) {
+        console.log('The winner is: ', squares[0][i]['value'], 'column ');
+        return squares[0][i]['value'];
+      } else if (
+        //// checks rows
+        squares[i][0]['value'] == squares[i][1]['value'] &&
+        squares[i][0]['value'] == squares[i][2]['value'] &&
+        squares[i][0]['value'] != ''
+      ) {
+        console.log('The winner is: ', squares[i][0]['value'], 'row ');
+        return squares[i][0]['value'];
       }
     }
-
-    //    3 squares in the same row match
-    //    i.e. same value
-    // 2. Go down each column to see if
-    //    3 squares in each column match
-    // 3. Go across each diagonal to see if
-    //    all three squares have the same value.
+    ////// checks diagonals
+    if (
+      squares[0][0]['value'] == squares[1][1]['value'] &&
+      squares[0][0]['value'] == squares[2][2]['value'] &&
+      squares[0][0]['value'] != ''
+    ) {
+      console.log('The winner is: ', squares[0][0]['value'], 'diagonal \\ ');
+      return squares[0][0]['value'];
+    }
+    if (
+      squares[0][2]['value'] == squares[1][1]['value'] &&
+      squares[0][2]['value'] == squares[2][0]['value'] &&
+      squares[0][2]['value'] != ''
+    ) {
+      console.log('The winner is: ', squares[0][2]['value'], 'diagonal / ');
+      return squares[0][2]['value'];
+    }
   };
 
   const resetGame = (e) => {
