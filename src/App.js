@@ -49,7 +49,9 @@ const App = () => {
     const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
       event.target.value = squareValue;
-      squareValue === PLAYER_2 ? setSquareValue(PLAYER_1) : setSquareValue(PLAYER_2);
+      squareValue === PLAYER_2
+        ? setSquareValue(PLAYER_1)
+        : setSquareValue(PLAYER_2);
       obj.value = event.target.value;
     }
   };
@@ -59,12 +61,8 @@ const App = () => {
   //   Then pass it into the squares as a callback
 
   const checkForWinner = (squares) => {
-    const x = 1;
-    const o = 0;
-    let counter = 0;
-
-    let playerX = false;
-    let PlayerO = false;
+    let x = 0;
+    let o = 0;
 
     // 0[ {id:0} {id:1} {id:2}]
     // 1[ {id:3} {id:4} {id:5}]
@@ -74,20 +72,24 @@ const App = () => {
     // You will need to:
     // 1. Go accross each row to see if
     console.log('inside check for winner');
-    console.log(squares);
 
-    if (
-      squares[0][0]['value'] == 'x' &&
-      squares[0][1]['value'] == 'x' &&
-      squares[0][2]['value'] == 'x'
-    ) {
-      console.log('x winner');
-    }
+    for (let array of squares) {
+      console.log(array[0]);
+      console.log(array[1]);
+      console.log(array[2]);
 
-    for (let item of squares) {
-      console.log(item);
-      if (item['value'] == 'x') {
-        counter += 1;
+      for (let item of array) {
+        if (item.value == 'x') {
+          x += 1;
+        }
+        if (item.value == 'o') {
+          o += 1;
+        }
+      }
+      if (x == 3) {
+        console.log('x is the winner');
+      } else if (o == 3) {
+        console.log('o is the winner');
       }
     }
 

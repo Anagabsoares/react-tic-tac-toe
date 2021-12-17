@@ -5,15 +5,19 @@ import PropTypes from 'prop-types';
 
 const generateSquareComponents = (squares, onClickCallback) => {
   let id = 0;
-  return squares.map((row) =>{ 
-    return row.map((square) =>{
-      id++;
-      return <Square
-              id={id}
-              key={id}
-              value={square.value}
-              onClickCallback={onClickCallback}/>
-  }); });
+  return squares.map((row) => {
+    return row.map((square) => {
+      id += 1;
+      return (
+        <Square
+          id={id}
+          key={id}
+          value={square.value}
+          onClickCallback={onClickCallback}
+        />
+      );
+    });
+  });
 };
 
 //   for (let row of squares) {
