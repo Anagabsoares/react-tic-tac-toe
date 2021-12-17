@@ -4,24 +4,33 @@ import Square from './Square';
 import PropTypes from 'prop-types';
 
 const generateSquareComponents = (squares, onClickCallback) => {
-  const sqr = [];
   let id = 0;
-
-  for (let row of squares) {
-    for (let col of row) {
+  return squares.map((row) =>{ 
+    return row.map((square) =>{
       id++;
-      sqr.push(
-        <Square
-          id={id}
-          key={id}
-          onClickCallback={onClickCallback}
-          value={col.value}
-        />
-      );
-    }
-  }
-  return sqr;
+      return <Square
+              id={id}
+              key={id}
+              value={square.value}
+              onClickCallback={onClickCallback}/>
+  }); });
 };
+
+//   for (let row of squares) {
+//     for (let col of row) {
+//       id++;
+//       sqr.push(
+//         <Square
+//           id={id}
+//           key={id}
+//           onClickCallback={onClickCallback}
+//           value={col.value}
+//         />
+//       );
+//     }
+//   }
+//   return sqr;
+// };
 
 const Board = ({ squares, onClickCallback }) => {
   const squareList = generateSquareComponents(squares, onClickCallback);

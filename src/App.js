@@ -3,8 +3,8 @@ import './App.css';
 
 import Board from './components/Board';
 
-const PLAYER_1 = 'X';
-const PLAYER_2 = 'O';
+const PLAYER_1 = 'x';
+const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
@@ -32,7 +32,7 @@ const App = () => {
 
   // Wave 2
 
-  const [squareValue, setSquareValue] = useState('x');
+  const [squareValue, setSquareValue] = useState(PLAYER_1);
 
   const flatArray = (squares) => {
     const list = [];
@@ -49,7 +49,7 @@ const App = () => {
     const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
       event.target.value = squareValue;
-      squareValue === 'o' ? setSquareValue('x') : setSquareValue('o');
+      squareValue === PLAYER_2 ? setSquareValue(PLAYER_1) : setSquareValue(PLAYER_2);
       obj.value = event.target.value;
     }
   };
