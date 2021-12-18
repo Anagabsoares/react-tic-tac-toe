@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import Board from './components/Board';
@@ -29,7 +29,6 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
-
   // Wave 2
 
   const [squareValue, setSquareValue] = useState(PLAYER_1);
@@ -68,16 +67,16 @@ const App = () => {
         squares[1][i]['value'] == squares[2][i]['value'] &&
         squares[0][i]['value'] != ''
       ) {
-        console.log('The winner is: ', squares[0][i]['value'], 'column ');
-        return squares[0][i]['value'];
+        return `winner is: ${squares[0][i]['value']}`;
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
         squares[i][0]['value'] == squares[i][2]['value'] &&
         squares[i][0]['value'] != ''
       ) {
-        console.log('The winner is: ', squares[i][0]['value'], 'row ');
-        return squares[i][0]['value'];
+        return `winner is ${squares[i][0]['value']}`;
+      } else {
+        return `Current Player: ${squareValue}`;
       }
     }
     ////// checks diagonals
@@ -86,7 +85,6 @@ const App = () => {
       squares[0][0]['value'] == squares[2][2]['value'] &&
       squares[0][0]['value'] != ''
     ) {
-      console.log('The winner is: ', squares[0][0]['value'], 'diagonal \\ ');
       return squares[0][0]['value'];
     }
     if (
@@ -94,18 +92,18 @@ const App = () => {
       squares[0][2]['value'] == squares[2][0]['value'] &&
       squares[0][2]['value'] != ''
     ) {
-      console.log('The winner is: ', squares[0][2]['value'], 'diagonal / ');
       return squares[0][2]['value'];
     }
   };
 
+  // useEffect(winner(), []);
+
   const resetGame = (e) => {
-    // Complete in Wave 4
+    setSquareValue(PLAYER_1);
+    setSquares(generateSquares());
   };
 
-  const displayPlayer = `Current Player ${squareValue.toUpperCase()} ${checkForWinner(
-    squares
-  )}`;
+  const displayPlayer = `${checkForWinner(squares)}`;
 
   return (
     <div className="App">
