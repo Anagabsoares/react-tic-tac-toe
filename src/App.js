@@ -8,7 +8,6 @@ const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
-
   let currentId = 0;
 
   for (let row = 0; row < 3; row += 1) {
@@ -21,7 +20,6 @@ const generateSquares = () => {
       currentId += 1;
     }
   }
-
   return squares;
 };
 
@@ -29,10 +27,8 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
-
-  // Wave 2
-
-  const [squareValue, setSquareValue] = useState(PLAYER_1);
+  const [currentPlayer, setSquareValue] = useState(PLAYER_1);
+  const [winner, setWinner] = useState(null);
 
   const flatArray = (squares) => {
     const list = [];
@@ -48,8 +44,8 @@ const App = () => {
     const list = flatArray(squares);
     const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
-      event.target.value = squareValue;
-      squareValue === PLAYER_2 ? setSquareValue(PLAYER_1) : setSquareValue(PLAYER_2);
+      event.target.value = currentPlayer;
+      currentPlayer === PLAYER_2 ? setSquareValue(PLAYER_1) : setSquareValue(PLAYER_2);
       obj.value = event.target.value;
     }
   };
@@ -99,13 +95,14 @@ const App = () => {
   };
 
 
-  const resetGame = (e) => {
-    // Complete in Wave 4
+  const resetGame = () => {
+    setSquares(generateSquares());
+    currentPlayer(PLAYER_1);
+    setWinner(null);
   };
 
-  const displayPlayer = `Current Player ${squareValue.toUpperCase()} ${checkForWinner(
-    squares
-  )}`;
+  const displayPlayer = `Current Player ${currentPlayer.toUpperCase()} ${checkForWinner(
+    squares)}`;
 
   return (
     <div className="App">
