@@ -95,18 +95,17 @@ const App = () => {
     return winner;
   };
 
-  // useEffect(winner(), []);
-
-  const resetGame = () => {
-    setSquares(generateSquares());
-    currentPlayer(PLAYER_1);
-    setWinner(null);
-  };
-
+  // set Winner
   useEffect(() => {
     const displayPlayer = `${checkForWinner(squares)}`;
   });
   // const displayPlayer = `${checkForWinner(squares)}`;
+
+  const resetGame = () => {
+    setSquares(generateSquares());
+    setCurrentPlayer(PLAYER_1);
+    setWinner('');
+  };
 
   return (
     <div className="App">
