@@ -66,7 +66,6 @@ const App = () => {
         squares[0][i]['value'] != ''
       ) {
         setWinner(squares[0][i]['value']);
-        console.log(winner);
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
@@ -91,27 +90,31 @@ const App = () => {
     ) {
       setWinner(squares[0][2]['value']);
     }
-    console.log(winner);
     return winner;
   };
 
-  // set Winner
-  useEffect(() => {
-    const displayPlayer = `${checkForWinner(squares)}`;
-  });
-  // const displayPlayer = `${checkForWinner(squares)}`;
+  // set Winner and avoid rerendering
+  useEffect(() => checkForWinner(squares));
+
+  // refactor using ternary
+  let display = '';
+  if (winner != null) {
+    display = `winner is ${winner}`;
+  } else {
+    display = `currentPlayer ${currentPlayer}`;
+  }
 
   const resetGame = () => {
     setSquares(generateSquares());
     setCurrentPlayer(PLAYER_1);
-    setWinner('');
+    setWinner(null);
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2> {winner}</h2>
+        <h2> {display}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
