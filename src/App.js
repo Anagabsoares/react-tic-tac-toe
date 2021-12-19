@@ -62,6 +62,7 @@ const App = () => {
   const checkForWinner = (squares) => {
     for (let i = 0; i < 3; i++) {
       //// checks columns
+
       if (
         squares[0][i]['value'] == squares[1][i]['value'] &&
         squares[1][i]['value'] == squares[2][i]['value'] &&
@@ -75,25 +76,24 @@ const App = () => {
         squares[i][0]['value'] != ''
       ) {
         return `winner is ${squares[i][0]['value']}`;
-      } else {
-        return `Current Player: ${squareValue}`;
+      }
+
+      ////// checks diagonals
+      else if (
+        squares[0][0]['value'] == squares[1][1]['value'] &&
+        squares[0][0]['value'] == squares[2][2]['value'] &&
+        squares[0][0]['value'] != ''
+      ) {
+        return squares[0][0]['value'];
+      } else if (
+        squares[0][2]['value'] == squares[1][1]['value'] &&
+        squares[0][2]['value'] == squares[2][0]['value'] &&
+        squares[0][2]['value'] != ''
+      ) {
+        return squares[0][2]['value'];
       }
     }
-    ////// checks diagonals
-    if (
-      squares[0][0]['value'] == squares[1][1]['value'] &&
-      squares[0][0]['value'] == squares[2][2]['value'] &&
-      squares[0][0]['value'] != ''
-    ) {
-      return squares[0][0]['value'];
-    }
-    if (
-      squares[0][2]['value'] == squares[1][1]['value'] &&
-      squares[0][2]['value'] == squares[2][0]['value'] &&
-      squares[0][2]['value'] != ''
-    ) {
-      return squares[0][2]['value'];
-    }
+    return `current player ${squareValue}`;
   };
 
   // useEffect(winner(), []);
