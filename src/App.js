@@ -8,7 +8,6 @@ const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
-
   let currentId = 0;
 
   for (let row = 0; row < 3; row += 1) {
@@ -21,7 +20,6 @@ const generateSquares = () => {
       currentId += 1;
     }
   }
-
   return squares;
 };
 
@@ -29,9 +27,9 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
+  const [currentPlayer, setSquareValue] = useState(PLAYER_1);
+  const [winner, setWinner] = useState(null);
   // Wave 2
-
-  const [squareValue, setSquareValue] = useState(PLAYER_1);
 
   const flatArray = (squares) => {
     const list = [];
@@ -47,8 +45,8 @@ const App = () => {
     const list = flatArray(squares);
     const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
-      event.target.value = squareValue;
-      squareValue === PLAYER_2
+      event.target.value = currentPlayer;
+      currentPlayer === PLAYER_2
         ? setSquareValue(PLAYER_1)
         : setSquareValue(PLAYER_2);
       obj.value = event.target.value;
@@ -62,7 +60,6 @@ const App = () => {
   const checkForWinner = (squares) => {
     for (let i = 0; i < 3; i++) {
       //// checks columns
-
       if (
         squares[0][i]['value'] == squares[1][i]['value'] &&
         squares[1][i]['value'] == squares[2][i]['value'] &&
@@ -76,31 +73,33 @@ const App = () => {
         squares[i][0]['value'] != ''
       ) {
         return `winner is ${squares[i][0]['value']}`;
-      }
-
-      ////// checks diagonals
-      else if (
-        squares[0][0]['value'] == squares[1][1]['value'] &&
-        squares[0][0]['value'] == squares[2][2]['value'] &&
-        squares[0][0]['value'] != ''
-      ) {
-        return squares[0][0]['value'];
-      } else if (
-        squares[0][2]['value'] == squares[1][1]['value'] &&
-        squares[0][2]['value'] == squares[2][0]['value'] &&
-        squares[0][2]['value'] != ''
-      ) {
-        return squares[0][2]['value'];
+      } else {
+        return `Current Player: ${currentPlayer}`;
       }
     }
-    return `current player ${squareValue}`;
+    ////// checks diagonals
+    if (
+      squares[0][0]['value'] == squares[1][1]['value'] &&
+      squares[0][0]['value'] == squares[2][2]['value'] &&
+      squares[0][0]['value'] != ''
+    ) {
+      return squares[0][0]['value'];
+    }
+    if (
+      squares[0][2]['value'] == squares[1][1]['value'] &&
+      squares[0][2]['value'] == squares[2][0]['value'] &&
+      squares[0][2]['value'] != ''
+    ) {
+      return squares[0][2]['value'];
+    }
   };
 
   // useEffect(winner(), []);
 
-  const resetGame = (e) => {
-    setSquareValue(PLAYER_1);
+  const resetGame = () => {
     setSquares(generateSquares());
+    currentPlayer(PLAYER_1);
+    setWinner(null);
   };
 
   const displayPlayer = `${checkForWinner(squares)}`;
