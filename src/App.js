@@ -27,7 +27,7 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
-  const [currentPlayer, setSquareValue] = useState(PLAYER_1);
+  const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
   // Wave 2
 
@@ -47,8 +47,8 @@ const App = () => {
     if (!obj.value) {
       event.target.value = currentPlayer;
       currentPlayer === PLAYER_2
-        ? setSquareValue(PLAYER_1)
-        : setSquareValue(PLAYER_2);
+        ? setCurrentPlayer(PLAYER_1)
+        : setCurrentPlayer(PLAYER_2);
       obj.value = event.target.value;
     }
   };
@@ -65,16 +65,15 @@ const App = () => {
         squares[1][i]['value'] == squares[2][i]['value'] &&
         squares[0][i]['value'] != ''
       ) {
-        return `winner is: ${squares[0][i]['value']}`;
+        setWinner(squares[0][i]['value']);
+        console.log(winner);
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
         squares[i][0]['value'] == squares[i][2]['value'] &&
         squares[i][0]['value'] != ''
       ) {
-        return `winner is ${squares[i][0]['value']}`;
-      } else {
-        return `Current Player: ${currentPlayer}`;
+        setWinner(squares[i][0]['value']);
       }
     }
     ////// checks diagonals
@@ -83,15 +82,17 @@ const App = () => {
       squares[0][0]['value'] == squares[2][2]['value'] &&
       squares[0][0]['value'] != ''
     ) {
-      return squares[0][0]['value'];
+      setWinner(squares[0][0]['value']);
     }
     if (
       squares[0][2]['value'] == squares[1][1]['value'] &&
       squares[0][2]['value'] == squares[2][0]['value'] &&
       squares[0][2]['value'] != ''
     ) {
-      return squares[0][2]['value'];
+      setWinner(squares[0][2]['value']);
     }
+    console.log(winner);
+    return winner;
   };
 
   // useEffect(winner(), []);
@@ -102,13 +103,16 @@ const App = () => {
     setWinner(null);
   };
 
-  const displayPlayer = `${checkForWinner(squares)}`;
+  useEffect(() => {
+    const displayPlayer = `${checkForWinner(squares)}`;
+  });
+  // const displayPlayer = `${checkForWinner(squares)}`;
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2> {displayPlayer}</h2>
+        <h2> {winner}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
