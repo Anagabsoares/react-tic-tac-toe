@@ -103,17 +103,6 @@ const App = () => {
     checkForWinner(squares);
   });
 
-  // if (winner != null) {
-  //   document.getElementsById('display').textContent = `winner is ${winner}`;
-  // } else {
-  //   document.getElementById(
-  //     'display'
-  //   ).textContent = `currentPlayer ${currentPlayer}`;
-  // }
-
-  // Find a way to disable onclick when winner is defined
-  // https://codesandbox.io/s/youthful-bouman-j60s4?from-embed
-  // refactor using ternary
   let display = '';
   if (winner != null) {
     display = `winner is ${winner}`;
