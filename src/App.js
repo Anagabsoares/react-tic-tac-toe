@@ -29,7 +29,9 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
+  const [count, setCount] = useState(0);
   const [disabled, setDisabled] = useState(false);
+
   // Wave 2
 
   const flatArray = (squares) => {
@@ -46,6 +48,7 @@ const App = () => {
     const list = flatArray(squares);
     const obj = list.find((o) => o.id == event.target.id - 1);
     if (!obj.value) {
+      setCount(count + 1);
       event.target.value = currentPlayer;
       currentPlayer === PLAYER_2
         ? setCurrentPlayer(PLAYER_1)
@@ -54,6 +57,7 @@ const App = () => {
     }
   };
 
+  console.log(count);
   // You will need to create a method to change the square
   //   When it is clicked on.
   //   Then pass it into the squares as a callback
@@ -113,6 +117,8 @@ const App = () => {
   let display = '';
   if (winner != null) {
     display = `winner is ${winner}`;
+  } else if (winner == null && count > 8) {
+    display = 'it is a Tie';
   } else {
     display = `currentPlayer ${currentPlayer}`;
   }
@@ -129,6 +135,7 @@ const App = () => {
     setCurrentPlayer(PLAYER_1);
     setWinner(null);
     setDisabled(false);
+    setCount(0);
   };
 
   return (
