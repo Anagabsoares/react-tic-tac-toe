@@ -36,11 +36,15 @@ const generateSquareComponents = (squares, onClickCallback) => {
 //   return sqr;
 // };
 
-const Board = ({ squares, onClickCallback }) => {
+const Board = ({ squares, onClickCallback, disabled }) => {
   const squareList = generateSquareComponents(squares, onClickCallback);
 
   return (
-    <div className="grid" role="button">
+    <div
+      className="grid"
+      role="button"
+      style={disabled ? { pointerEvents: 'none', opacity: '1' } : {}}
+    >
       {squareList}
     </div>
   );
@@ -56,6 +60,7 @@ Board.propTypes = {
     )
   ),
   onClickCallback: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 };
 
 export default Board;

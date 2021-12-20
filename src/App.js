@@ -29,6 +29,7 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
+  const [disabled, setDisabled] = useState(false);
   // Wave 2
 
   const flatArray = (squares) => {
@@ -94,8 +95,20 @@ const App = () => {
   };
 
   // set Winner and avoid rerendering
-  useEffect(() => checkForWinner(squares));
+  useEffect(() => {
+    checkForWinner(squares);
+  });
 
+  // if (winner != null) {
+  //   document.getElementsById('display').textContent = `winner is ${winner}`;
+  // } else {
+  //   document.getElementById(
+  //     'display'
+  //   ).textContent = `currentPlayer ${currentPlayer}`;
+  // }
+
+  // Find a way to disable onclick when winner is defined
+  // https://codesandbox.io/s/youthful-bouman-j60s4?from-embed
   // refactor using ternary
   let display = '';
   if (winner != null) {
@@ -104,21 +117,30 @@ const App = () => {
     display = `currentPlayer ${currentPlayer}`;
   }
 
+  // disable clicks after findind a winner
+  useEffect(() => {
+    if (winner != null) {
+      setDisabled(true);
+    }
+  }, [winner]);
+
   const resetGame = () => {
     setSquares(generateSquares());
     setCurrentPlayer(PLAYER_1);
     setWinner(null);
+    setDisabled(false);
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2> {display}</h2>
+        <h2>{display}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
         <Board
+          disabled={disabled}
           onClickCallback={(event) => changeSquareValue(event, squares)}
           squares={squares}
         />
