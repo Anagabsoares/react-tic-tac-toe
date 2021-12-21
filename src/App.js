@@ -57,27 +57,23 @@ const App = () => {
     }
   };
 
-  console.log(count);
-  // You will need to create a method to change the square
-  //   When it is clicked on.
-  //   Then pass it into the squares as a callback
-
   const checkForWinner = (squares) => {
+    let result = null;
     for (let i = 0; i < 3; i++) {
       //// checks columns
       if (
         squares[0][i]['value'] == squares[1][i]['value'] &&
-        squares[1][i]['value'] == squares[2][i]['value'] &&
+        squares[0][i]['value'] == squares[2][i]['value'] &&
         squares[0][i]['value'] != ''
       ) {
-        setWinner(squares[0][i]['value']);
+        result = squares[0][i]['value'];
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
         squares[i][0]['value'] == squares[i][2]['value'] &&
         squares[i][0]['value'] != ''
       ) {
-        setWinner(squares[i][0]['value']);
+        result = squares[i][0]['value'];
       }
     }
     ////// checks diagonals
@@ -86,15 +82,16 @@ const App = () => {
       squares[0][0]['value'] == squares[2][2]['value'] &&
       squares[0][0]['value'] != ''
     ) {
-      setWinner(squares[0][0]['value']);
+      result = squares[0][0]['value'];
     }
     if (
       squares[0][2]['value'] == squares[1][1]['value'] &&
       squares[0][2]['value'] == squares[2][0]['value'] &&
       squares[0][2]['value'] != ''
     ) {
-      setWinner(squares[0][2]['value']);
+      result = squares[0][2]['value'];
     }
+    setWinner(result);
     return winner;
   };
 
@@ -105,16 +102,17 @@ const App = () => {
 
   let display = '';
   if (winner != null) {
-    display = `winner is ${winner}`;
+    display = `Winner is ${winner}`;
   } else if (winner == null && count > 8) {
     display = 'it is a Tie';
   } else {
-    display = `currentPlayer ${currentPlayer}`;
+    display = `current Player ${currentPlayer}`;
   }
 
   // disable clicks after findind a winner
+  // useEffect will be triggered every time winner changes
   useEffect(() => {
-    if (winner != null) {
+    if (winner) {
       setDisabled(true);
     }
   }, [winner]);
