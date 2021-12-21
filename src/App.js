@@ -34,7 +34,7 @@ const App = () => {
 
   // Wave 2
 
-  const flatArray = (squares) => {
+  const flatMatrix = (squares) => {
     const list = [];
     for (let arr of squares) {
       for (let item of arr) {
@@ -45,16 +45,17 @@ const App = () => {
   };
 
   const changeSquareValue = (event, squares) => {
-    const list = flatArray(squares);
-    const obj = list.find((o) => o.id == event.target.id - 1);
-    if (!obj.value) {
+    const list = flatMatrix(squares);
+    const square = list.find((square) => square.id == event.target.id - 1);
+    if (!square.value) {
       setCount(count + 1);
       event.target.value = currentPlayer;
       currentPlayer === PLAYER_2
         ? setCurrentPlayer(PLAYER_1)
         : setCurrentPlayer(PLAYER_2);
-      obj.value = event.target.value;
+      square.value = event.target.value;
     }
+    checkForWinner(squares);
   };
 
   const checkForWinner = (squares) => {
@@ -75,38 +76,33 @@ const App = () => {
       ) {
         result = squares[i][0]['value'];
       }
-    }
-    ////// checks diagonals
-    if (
-      squares[0][0]['value'] == squares[1][1]['value'] &&
-      squares[0][0]['value'] == squares[2][2]['value'] &&
-      squares[0][0]['value'] != ''
-    ) {
-      result = squares[0][0]['value'];
-    }
-    if (
-      squares[0][2]['value'] == squares[1][1]['value'] &&
-      squares[0][2]['value'] == squares[2][0]['value'] &&
-      squares[0][2]['value'] != ''
-    ) {
-      result = squares[0][2]['value'];
+      ////// checks diagonals
+      else if (
+        squares[0][0]['value'] == squares[1][1]['value'] &&
+        squares[0][0]['value'] == squares[2][2]['value'] &&
+        squares[0][0]['value'] != ''
+      ) {
+        result = squares[0][0]['value'];
+      } else if (
+        squares[0][2]['value'] == squares[1][1]['value'] &&
+        squares[0][2]['value'] == squares[2][0]['value'] &&
+        squares[0][2]['value'] != ''
+      ) {
+        result = squares[0][2]['value'];
+      }
     }
     setWinner(result);
-    return winner;
   };
 
   // set Winner and avoid rerendering
-  useEffect(() => {
-    checkForWinner(squares);
-  });
 
-  let display = '';
+  let displayResult = '';
   if (winner != null) {
-    display = `Winner is ${winner}`;
+    displayResult = `Winner is ${winner}`;
   } else if (winner == null && count > 8) {
-    display = 'it is a Tie';
+    displayResult = 'it is a Tie';
   } else {
-    display = `current Player ${currentPlayer}`;
+    displayResult = `current Player ${currentPlayer}`;
   }
 
   // disable clicks after findind a winner
@@ -129,7 +125,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>{display}</h2>
+        <h2>{displayResult}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
