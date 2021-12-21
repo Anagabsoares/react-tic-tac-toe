@@ -4,37 +4,17 @@ import Square from './Square';
 import PropTypes from 'prop-types';
 
 const generateSquareComponents = (squares, onClickCallback) => {
-  let id = 0;
-  return squares.map((row) => {
-    return row.map((square) => {
-      id += 1;
-      return (
-        <Square
-          id={id}
-          key={id}
-          value={square.value}
-          onClickCallback={onClickCallback}
-        />
-      );
-    });
+  const squaresTo2D = [].concat(...squares);
+  return squaresTo2D.map((square) => {
+    return (
+      <Square
+        value={square.value}
+        id={square.id}
+        onClickCallback={onClickCallback}
+        key={square.id}/>
+    );
   });
 };
-
-//   for (let row of squares) {
-//     for (let col of row) {
-//       id++;
-//       sqr.push(
-//         <Square
-//           id={id}
-//           key={id}
-//           onClickCallback={onClickCallback}
-//           value={col.value}
-//         />
-//       );
-//     }
-//   }
-//   return sqr;
-// };
 
 const Board = ({ squares, onClickCallback }) => {
   const squareList = generateSquareComponents(squares, onClickCallback);

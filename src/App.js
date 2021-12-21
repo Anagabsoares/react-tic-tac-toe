@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Board from './components/Board';
@@ -8,56 +8,67 @@ const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
+  let row = 0;
+  let col = 0;
   let currentId = 0;
 
-  for (let row = 0; row < 3; row += 1) {
+  while (row < 3) {
     squares.push([]);
-    for (let col = 0; col < 3; col += 1) {
+    while (col < 3) {
       squares[row].push({
         id: currentId,
         value: '',
       });
+      col += 1;
       currentId += 1;
     }
+    row += 1;
+    col = 0;
   }
+
   return squares;
 };
 
 const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
+
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setSquareValue] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
-  // Wave 2
+  
 
-  const flatArray = (squares) => {
-    const list = [];
-    for (let arr of squares) {
-      for (let item of arr) {
-        list.push(item);
+  const updateSquares = (id) => {
+    if (winner !== null){return null;} 
+
+    const newSquares = [...squares];
+    let row = 0;
+    let col = 0;
+
+    while (row < 3 ) {
+      while (col < 3 ) {
+        let currentSquare = newSquares[row][col];
+        if (currentSquare.id === id) {
+          if (currentSquare.value !== '') {return null;}
+          currentSquare.value = currentPlayer;
+          
+          if (currentPlayer === PLAYER_1) {
+            setSquareValue(PLAYER_2);
+          } else {
+            setSquareValue(PLAYER_1);
+          }
+        }
+        col += 1;
       }
+      row += 1;
+      col = 0;
     }
-    return list;
+    setWinner(checkForWinner());
+    setSquares(newSquares);
   };
 
-  const changeSquareValue = (event, squares) => {
-    const list = flatArray(squares);
-    const obj = list.find((o) => o.id == event.target.id - 1);
-    if (!obj.value) {
-      event.target.value = currentPlayer;
-      currentPlayer === PLAYER_2
-        ? setSquareValue(PLAYER_1)
-        : setSquareValue(PLAYER_2);
-      obj.value = event.target.value;
-    }
-  };
-
-  // You will need to create a method to change the square
-  //   When it is clicked on.
-  //   Then pass it into the squares as a callback
-
-  const checkForWinner = (squares) => {
+  const checkForWinner = () => {
+    // Check all the rows and columns for a winner
     for (let i = 0; i < 3; i++) {
       //// checks columns
       if (
@@ -73,9 +84,7 @@ const App = () => {
         squares[i][0]['value'] != ''
       ) {
         return `winner is ${squares[i][0]['value']}`;
-      } else {
-        return `Current Player: ${currentPlayer}`;
-      }
+      } 
     }
     ////// checks diagonals
     if (
@@ -92,30 +101,28 @@ const App = () => {
     ) {
       return squares[0][2]['value'];
     }
+    return null;
   };
-
-  // useEffect(winner(), []);
-
+  
   const resetGame = () => {
     setSquares(generateSquares());
-    currentPlayer(PLAYER_1);
+    setSquareValue(PLAYER_1);
     setWinner(null);
   };
 
-  const displayPlayer = `${checkForWinner(squares)}`;
+  const playerStatus= (winner === null ? `Current Player ${currentPlayer}`  : `Winner is ${winner}`);
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2> {displayPlayer}</h2>
+        <h2>
+          {playerStatus}
+        </h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
-        <Board
-          onClickCallback={(event) => changeSquareValue(event, squares)}
-          squares={squares}
-        />
+        <Board squares={squares} onClickCallback={updateSquares} />
       </main>
     </div>
   );
