@@ -36,6 +36,7 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setSquareValue] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
+  const [count, setCount] = useState(1);
 
   
 
@@ -52,6 +53,7 @@ const App = () => {
         let currentSquare = newSquares[row][col];
         if (currentSquare.id === id) {
           if (currentSquare.value !== '') {return null;}
+          setCount(count + 1);
           currentSquare.value = currentPlayer;
           found = true;
           
@@ -113,14 +115,24 @@ const App = () => {
     setWinner(null);
   };
 
-  const playerStatus= (winner === null ? `Current Player ${currentPlayer}`  : `Winner is ${winner}`);
+  const playerStatus= () =>{
+
+    if (winner != null) {
+      return `Winner is ${winner}`;
+    } else if (winner == null && count > 8) {
+      return 'It is a Tie';
+    } else {
+      return `Current Player ${currentPlayer}`;
+    }
+    
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
         <h2>
-          {playerStatus}
+          {playerStatus()}
         </h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
@@ -130,5 +142,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;
