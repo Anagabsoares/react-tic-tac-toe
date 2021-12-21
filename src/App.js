@@ -36,6 +36,7 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setSquareValue] = useState(PLAYER_1);
   const [winner, setWinner] = useState(null);
+
   
 
   const updateSquares = (id) => {
@@ -44,13 +45,15 @@ const App = () => {
     const newSquares = [...squares];
     let row = 0;
     let col = 0;
+    let found = false;
 
-    while (row < 3 ) {
-      while (col < 3 ) {
+    while (row < 3 && found == false) {
+      while (col < 3 && found === false) {
         let currentSquare = newSquares[row][col];
         if (currentSquare.id === id) {
           if (currentSquare.value !== '') {return null;}
           currentSquare.value = currentPlayer;
+          found = true;
           
           if (currentPlayer === PLAYER_1) {
             setSquareValue(PLAYER_2);
@@ -76,14 +79,14 @@ const App = () => {
         squares[1][i]['value'] == squares[2][i]['value'] &&
         squares[0][i]['value'] != ''
       ) {
-        return squares[0][i]['value'];
+        return `winner is: ${squares[0][i]['value']}`;
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
         squares[i][0]['value'] == squares[i][2]['value'] &&
         squares[i][0]['value'] != ''
       ) {
-        return squares[i][0]['value'];
+        return `winner is ${squares[i][0]['value']}`;
       } 
     }
     ////// checks diagonals
