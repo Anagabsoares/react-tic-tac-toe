@@ -38,10 +38,10 @@ const App = () => {
   const [winner, setWinner] = useState(null);
   const [count, setCount] = useState(1);
 
-  
-
   const updateSquares = (id) => {
-    if (winner !== null){return null;} 
+    if (winner !== null) {
+      return null;
+    }
 
     const newSquares = [...squares];
     let row = 0;
@@ -52,11 +52,13 @@ const App = () => {
       while (col < 3 && found === false) {
         let currentSquare = newSquares[row][col];
         if (currentSquare.id === id) {
-          if (currentSquare.value !== '') {return null;}
+          if (currentSquare.value !== '') {
+            return null;
+          }
           setCount(count + 1);
           currentSquare.value = currentPlayer;
           found = true;
-          
+
           if (currentPlayer === PLAYER_1) {
             setSquareValue(PLAYER_2);
           } else {
@@ -89,7 +91,7 @@ const App = () => {
         squares[i][0]['value'] != ''
       ) {
         return squares[i][0]['value'];
-      } 
+      }
     }
     ////// checks diagonals
     if (
@@ -108,15 +110,15 @@ const App = () => {
     }
     return null;
   };
-  
+
   const resetGame = () => {
     setSquares(generateSquares());
     setSquareValue(PLAYER_1);
+    setCount(1);
     setWinner(null);
   };
 
-  const playerStatus= () =>{
-
+  const playerStatus = () => {
     if (winner != null) {
       return `Winner is ${winner}`;
     } else if (winner == null && count > 8) {
@@ -124,16 +126,13 @@ const App = () => {
     } else {
       return `Current Player ${currentPlayer}`;
     }
-    
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>
-          {playerStatus()}
-        </h2>
+        <h2>{playerStatus()}</h2>
         <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
