@@ -81,14 +81,14 @@ const App = () => {
         squares[1][i]['value'] == squares[2][i]['value'] &&
         squares[0][i]['value'] != ''
       ) {
-        return `winner is: ${squares[0][i]['value']}`;
+        return squares[0][i]['value'];
       } else if (
         //// checks rows
         squares[i][0]['value'] == squares[i][1]['value'] &&
         squares[i][0]['value'] == squares[i][2]['value'] &&
         squares[i][0]['value'] != ''
       ) {
-        return `winner is ${squares[i][0]['value']}`;
+        return squares[i][0]['value'];
       } 
     }
     ////// checks diagonals
