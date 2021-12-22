@@ -56,6 +56,7 @@ const App = () => {
             return null;
           }
           setCount(count + 1);
+          console.log(count);
           currentSquare.value = currentPlayer;
           found = true;
 
@@ -114,14 +115,14 @@ const App = () => {
   const resetGame = () => {
     setSquares(generateSquares());
     setSquareValue(PLAYER_1);
-    setCount(1);
+    setCount(0);
     setWinner(null);
   };
 
   const playerStatus = () => {
     if (winner != null) {
       return `Winner is ${winner}`;
-    } else if (winner == null && count == 9) {
+    } else if (!winner && count === 9) {
       return 'It is a Tie';
     } else {
       return `Current Player ${currentPlayer}`;
