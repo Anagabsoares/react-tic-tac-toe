@@ -121,7 +121,7 @@ const App = () => {
   const playerStatus = () => {
     if (winner != null) {
       return `Winner is ${winner}`;
-    } else if (winner == null && count > 8) {
+    } else if (winner == null && count == 9) {
       return 'It is a Tie';
     } else {
       return `Current Player ${currentPlayer}`;
